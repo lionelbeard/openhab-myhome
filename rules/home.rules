@@ -254,6 +254,8 @@ then
 	postUpdate(Zone_filles_outofschedule, Zone_filles_outofschedule.previousState.state)
 	postUpdate(VMC_rapide, VMC_rapide.previousState.state)
 	postUpdate(VMC_auto, VMC_auto.previousState.state)
+	postUpdate(High_hum_sallebain, High_hum_sallebain.previousState.state)
+	postUpdate(High_hum_salledeau, High_hum_salledeau.previousState.state)
 	postUpdate(Filtration_piscine_auto, Filtration_piscine_auto.previousState.state)
 end
 
@@ -1197,11 +1199,13 @@ then
 		//	if((hygro_sallebain_value >= 70) && (hygro_abs_outside_number < hygro_abs_sallebain_number)) {
 			if((hygro_abs_sallebain_number >= 16) && (hygro_sallebain_value >= 70) && (hygro_abs_outside_number < hygro_abs_sallebain_number)) {
 //				logInfo("vmc", "Salle de bain too high")
+				postUpdate(High_hum_sallebain, "OUI")
 				sendCommand(VMC_rapide, ON)
 			}
 //			else if((hygro_salledeau_value >= 70) && (hygro_abs_outside_number < hygro_abs_salledeau_number)) {
 			else if((hygro_abs_salledeau_number >= 16) && (hygro_salledeau_value >= 70) && (hygro_abs_outside_number < hygro_abs_salledeau_number)) {
 //				logInfo("vmc", "Salle d'eau too high")
+				postUpdate(High_hum_salledeau, "OUI")
 				sendCommand(VMC_rapide, ON)
 			}
 		} 
@@ -1209,6 +1213,8 @@ then
 //			if((hygro_sallebain_value <= 68) && (hygro_salledeau_value <= 68)) {
 			if(((hygro_abs_sallebain_number <= 15)||(hygro_abs_outside_number >= hygro_abs_sallebain_number)||(hygro_sallebain_value <= 68)) && ((hygro_abs_salledeau_number <= 15)||(hygro_abs_outside_number >= hygro_abs_salledeau_number)||(hygro_salledeau_value <= 68))) {
 //				logInfo("vmc","Back to normal")
+				postUpdate(High_hum_sallebain,"NON")
+				postUpdate(High_hum_salledeau,"NON")
 				sendCommand(VMC_rapide, OFF)
 			}
 		}
@@ -1245,6 +1251,8 @@ then
 	{
  		if((hygro_abs_outside_number > hygro_abs_sallebain_number) && (hygro_abs_outside_number > hygro_abs_salledeau_number))
 		{
+			postUpdate(High_hum_sallebain,"NON")
+			postUpdate(High_hum_salledeau,"NON")
 			sendCommand(VMC_rapide, OFF)
 		}
 	}

@@ -145,6 +145,7 @@ Number Temp_sallebain (gSalleBain) {rfxcom="<33793:Temperature"}
 //Number Hygro_sallebain (gSalleBain) {exec="<[/bin/cat /tmp/oregon_ch1.hum:60000:REGEX((.*?))]"}
 Number Hygro_sallebain (gSalleBain) {rfxcom="<33793:Humidity"}
 Number Hygro_abs_sallebain
+String High_hum_sallebain
 //String Batt_sallebain {rfxcom="<41217:BatteryLevel"}
 //String Status_sallebain {rfxcom="<41217:Status"}
 //String Date_sallebain {exec="<[/usr/local/bin/getFileDate.sh /tmp/oregon_ch1.temp:60000:REGEX((.*?))]"}
@@ -155,6 +156,7 @@ Number Temp_salledeau (gSalleEau) {rfxcom="<62210:Temperature"}
 //Number Hygro_salledeau (gSalleEau) {exec="<[/bin/cat /tmp/oregon_ch2.hum:60000:REGEX((.*?))]"}
 Number Hygro_salledeau (gSalleEau) {rfxcom="<62210:Humidity"}
 Number Hygro_abs_salledeau
+String High_hum_salledeau
 //String Batt_salledeau {rfxcom="<62210:BatteryLevel"}
 //String Status_salledeau {rfxcom="<62210:Status"}
 //String Date_salledeau {exec="<[/usr/local/bin/getFileDate.sh /tmp/oregon_ch2.temp:60000:REGEX((.*?))]"}

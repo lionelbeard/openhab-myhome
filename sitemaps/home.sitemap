@@ -140,20 +140,22 @@ sitemap home label="La Maison"
 				Text item=Zone_ami_volet_status icon="grille"
  				Chart item=Temp_chami icon="temperature" label="Historique température" period=W refresh=60000				
         }
-	Text item=Hygro_sallebain label="Salle de bains [%.0f %%]" icon="bath" valuecolor=[Hygro_sallebain>="70"="red", Hygro_sallebain<"70"="green"] {
+	Text item=Hygro_sallebain label="Salle de bains [%.0f %%]" icon="bath" valuecolor=[High_hum_sallebain=="OUI"="red", High_hum_sallebain=="NON"="green"] {
 		Text item=Temp_sallebain label="Température [%.1f °C]" icon="temperature"
 		Text item=Hygro_sallebain label="Humidité [%.0f %%]" icon="temperature"
 		Text item=Hygro_abs_sallebain label="Humidité absolue [%.2f g/m3]" icon="temperature"
+		Text item=High_hum_sallebain label="Trop humide? [%s]" icon="temperature"
 		//Text item=Status_sallebain label="Status [%s]"
         Switch item=VMC_rapide label="VMC - Vitesse rapide" icon="fan"
 		Chart item=gSalleBain icon="temperature" label="Historique" period=3D refresh=60000
 		//Text item=Batt_sallebain label="Batterie [%s]"
 //		Text item=Date_sallebain label="Dernière mise à jour [%s]" icon="calendar"
 	} 
-    Text item=Hygro_salledeau label="Salle d'eau [%.0f %%]" icon="shower" valuecolor=[Hygro_salledeau>="70"="red", Hygro_salledeau<"70"="green"] {
+    Text item=Hygro_salledeau label="Salle d'eau [%.0f %%]" icon="shower" valuecolor=[High_hum_salledeau=="OUI"="red", High_hum_salledeau=="NON"="green"] {
         Text item=Temp_salledeau label="Température [%.1f °C]" icon="temperature"
         Text item=Hygro_salledeau label="Humidité [%.0f %%]" icon="temperature"
         Text item=Hygro_abs_salledeau label="Humidité absolue [%.2f g/m3]" icon="temperature"
+	Text item=High_hum_salledeau label="Trop humide? [%s]" icon="temperature"
 		//Text item=Status_salledeau label="Status [%s]"
 		Switch item=VMC_rapide label="VMC - Vitesse rapide" icon="fan"
 		Chart item=gSalleEau icon="temperature" label="Historique" period=3D refresh=60000
