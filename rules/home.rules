@@ -1610,6 +1610,80 @@ then
 	}
 end
 
+
+rule "ch_thomas_alarme_incendie"
+when
+        Item ChThomas_FGSD_Smoke received update
+then
+        if (ChThomas_FGSD_Smoke.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Fumée détectée dans la chambre de Thomas!")
+                pushover("ALARME INCENDIE: Fumée détectée dans la chambre de Thomas!", 2)
+                sendMail("lionel@beard.fr", "[ChParents] URGENT: ALARME INCENDIE!!!", "Fumée détectée dans la chambre de Thomas!")
+        }
+end
+
+rule "ch_thomas_alarme_chaleur"
+when
+        Item ChThomas_FGSD_Heat received update
+then
+        if (ChThomas_FGSD_Heat.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Chaleur excessive dans la chambre de Thomas!")
+                pushover("ALARME INCENDIE: Chaleur excessive dans la chambre de Thomas!", 2)
+                sendMail("lionel@beard.fr", "[ChParents] URGENT: ALARME INCENDIE!!!", "Chaleur excessive dans la chambre de Thomas!")
+        }
+end
+
+rule "ch_thomas_alarme_intrusion"
+when
+        Item ChThomas_FGSD_Tamper received update
+then
+        if (ChThomas_FGSD_Tamper.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Capteur dans la chambre de Thomas ouvert!")
+                pushover("ALARME INCENDIE: Capteur dans la chambre de Thomas ouvert!", 0)
+                sendMail("lionel@beard.fr", "[ChParents] ALARME INCENDIE", "Capteur dans la chambre de Thomas ouvert!")
+        }
+end
+
+
+rule "ch_filles_alarme_incendie"
+when
+        Item ChFilles_FGSD_Smoke received update
+then
+        if (ChFilles_FGSD_Smoke.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Fumée détectée dans la chambre des filles!")
+                pushover("ALARME INCENDIE: Fumée détectée dans la chambre des filles!", 2)
+                sendMail("lionel@beard.fr", "[ChParents] URGENT: ALARME INCENDIE!!!", "Fumée détectée dans la chambre des filles!")
+        }
+end
+
+rule "ch_filles_alarme_chaleur"
+when
+        Item ChFilles_FGSD_Heat received update
+then
+        if (ChFilles_FGSD_Heat.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Chaleur excessive dans la chambre des filles!")
+                pushover("ALARME INCENDIE: Chaleur excessive dans la chambre des filles!", 2)
+                sendMail("lionel@beard.fr", "[ChParents] URGENT: ALARME INCENDIE!!!", "Chaleur excessive dans la chambre des filles!")
+        }
+end
+
+rule "ch_filles_alarme_intrusion"
+when
+        Item ChFilles_FGSD_Tamper received update
+then
+        if (ChFilles_FGSD_Tamper.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Capteur dans la chambre des filles ouvert!")
+                pushover("ALARME INCENDIE: Capteur dans la chambre des filles ouvert!", 0)
+                sendMail("lionel@beard.fr", "[ChParents] ALARME INCENDIE", "Capteur dans la chambre des filles ouvert!")
+        }
+end
+
 /* Feu tricolore */
 /*rule "feu_auto"
 when

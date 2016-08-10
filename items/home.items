@@ -98,6 +98,12 @@ Number Temp_thomas_setpoint
 Number AZ_thomas_status_register {modbus="slaveZone5:9"}
 String Zone_thomas_volet_status "Etat de la grille [%s]"
 
+Contact ChThomas_FGSD_Smoke {zwave="11:command=sensor_alarm,alarm_type=1"}
+Contact ChThomas_FGSD_Heat {zwave="11:command=sensor_alarm,alarm_type=4"}
+Contact ChThomas_FGSD_Tamper {zwave="11:command=sensor_alarm,alarm_type=0"}
+Number  ChThomas_FGSD_Battery {zwave="11:command=battery" }
+Number  ChThomas_FGSD_Temp {zwave="11:command=sensor_multilevel,sensor_type=1" }
+
 /* Ch Jumelles */
 Number AZ_filles_OpMode {modbus="slaveZone6:0"}
 Switch Zone_filles_OnOff
@@ -108,6 +114,12 @@ Number AZ_temp_setpoint_filles_tenths {modbus="slaveZone6:3"}
 Number Temp_filles_setpoint
 Number AZ_filles_status_register {modbus="slaveZone6:9"}
 String Zone_filles_volet_status "Etat de la grille [%s]"
+
+Contact ChFilles_FGSD_Smoke {zwave="12:command=sensor_alarm,alarm_type=1"}
+Contact ChFilles_FGSD_Heat {zwave="12:command=sensor_alarm,alarm_type=4"}
+Contact ChFilles_FGSD_Tamper {zwave="12:command=sensor_alarm,alarm_type=0"}
+Number  ChFilles_FGSD_Battery {zwave="12:command=battery" }
+Number  ChFilles_FGSD_Temp {zwave="12:command=sensor_multilevel,sensor_type=1" }
 
 /* Freebox */
 // Wifi Entries

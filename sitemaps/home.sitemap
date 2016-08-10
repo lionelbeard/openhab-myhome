@@ -114,6 +114,14 @@ sitemap home label="La Maison"
 				Setpoint item=Temp_thomas_setpoint label="Température souhaitée [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
 				Text item=AZ_thomas_status_register visibility=[<0]
 				Text item=Zone_thomas_volet_status icon="grille"
+                                Text label="Détecteur d'incendie" icon="incendie" labelcolor=[ChThomas_FGSD_Smoke=="OPEN"="red", ChThomas_FGSD_Heat=="OPEN"="red", ChThomas_FGSD_Tamper=="OPEN"="red", ChThomas_FGSD_Battery<="10"="orange", ChThomas_FGSD_Battery<="2"="red"] {
+                                        Text item=ChThomas_FGSD_Smoke icon="incendie" label="Alarme fumée [MAP(fr.map):%s]"
+                                        Text item=ChThomas_FGSD_Heat icon="incendie" label="Alarme chaleur [MAP(fr.map):%s]"
+                                        Text item=ChThomas_FGSD_Tamper icon="incendie" label="Alarme intrusion [MAP(fr.map):%s]"
+                                        Text item=ChThomas_FGSD_Battery icon="batterie" label="Batterie [%s %%]"
+                                        Text item=ChThomas_FGSD_Temp icon="temperature" label="Température [%.1f°C]"
+                                }
+
 				Chart item=Temp_chthomas icon="temperature" label="Historique température" period=W refresh=60000				
         }
 	Text item=Temp_chfilles label="Chambre des filles [%.1f °C]" icon="bedroom" valuecolor=[Zone_filles_OnOff=="OFF"="red", Zone_filles_volet_status=="Ouverte"="orange", Zone_filles_volet_status=="Fermée"="green"] {
@@ -126,6 +134,14 @@ sitemap home label="La Maison"
 				Setpoint item=Temp_filles_setpoint label="Température souhaitée [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
 				Text item=AZ_filles_status_register visibility=[<0]
 				Text item=Zone_filles_volet_status icon="grille"
+                                Text label="Détecteur d'incendie" icon="incendie" labelcolor=[ChFilles_FGSD_Smoke=="OPEN"="red", ChFilles_FGSD_Heat=="OPEN"="red", ChFilles_FGSD_Tamper=="OPEN"="red", ChFilles_FGSD_Battery<="10"="orange", ChFilles_FGSD_Battery<="2"="red"] {
+                                        Text item=ChFilles_FGSD_Smoke icon="incendie" label="Alarme fumée [MAP(fr.map):%s]"
+                                        Text item=ChFilles_FGSD_Heat icon="incendie" label="Alarme chaleur [MAP(fr.map):%s]"
+                                        Text item=ChFilles_FGSD_Tamper icon="incendie" label="Alarme intrusion [MAP(fr.map):%s]"
+                                        Text item=ChFilles_FGSD_Battery icon="batterie" label="Batterie [%s %%]"
+                                        Text item=ChFilles_FGSD_Temp icon="temperature" label="Température [%.1f°C]"
+                                }
+				
 				Chart item=Temp_chfilles icon="temperature" label="Historique température" period=W refresh=60000				
         }
 	Text item=Temp_chami label="Chambre d'ami [%.1f °C]" icon="bedroom" valuecolor=[Zone_ami_OnOff=="OFF"="red", Zone_ami_volet_status=="Ouverte"="orange", Zone_ami_volet_status=="Fermée"="green"] {
