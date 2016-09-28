@@ -1684,6 +1684,43 @@ then
         }
 end
 
+
+rule "ch_ami_alarme_incendie"
+when
+        Item ChAmi_FGSD_Smoke received update
+then
+        if (ChAmi_FGSD_Smoke.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Fumée détectée dans la chambre d'ami!")
+                pushover("ALARME INCENDIE: Fumée détectée dans la chambre d'ami!", 2)
+                sendMail("lionel@beard.fr", "[ChParents] URGENT: ALARME INCENDIE!!!", "Fumée détectée dans la chambre d'ami!")
+        }
+end
+
+rule "ch_ami_alarme_chaleur"
+when
+        Item ChAmi_FGSD_Heat received update
+then
+        if (ChAmi_FGSD_Heat.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Chaleur excessive dans la chambre d'ami!")
+                pushover("ALARME INCENDIE: Chaleur excessive dans la chambre d'ami!", 2)
+                sendMail("lionel@beard.fr", "[ChParents] URGENT: ALARME INCENDIE!!!", "Chaleur excessive dans la chambre d'ami!")
+        }
+end
+
+rule "ch_ami_alarme_intrusion"
+when
+        Item ChAmi_FGSD_Tamper received update
+then
+        if (ChAmi_FGSD_Tamper.state == OPEN)
+        {
+                notifyMyAndroid("ALARME INCENDIE", "Capteur dans la chambre d'ami ouvert!")
+                pushover("ALARME INCENDIE: Capteur dans la chambre d'ami ouvert!", 0)
+                sendMail("lionel@beard.fr", "[ChParents] ALARME INCENDIE", "Capteur dans la chambre d'ami ouvert!")
+        }
+end
+
 /* Feu tricolore */
 /*rule "feu_auto"
 when

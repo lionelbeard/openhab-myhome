@@ -87,6 +87,12 @@ Number Temp_ami_setpoint
 Number AZ_ami_status_register {modbus="slaveZone4:9"}
 String Zone_ami_volet_status "Etat de la grille [%s]"
 
+Contact ChAmi_FGSD_Smoke {zwave="13:command=sensor_alarm,alarm_type=1"}
+Contact ChAmi_FGSD_Heat {zwave="13:command=sensor_alarm,alarm_type=4"}
+Contact ChAmi_FGSD_Tamper {zwave="13:command=sensor_alarm,alarm_type=0"}
+Number  ChAmi_FGSD_Battery {zwave="13:command=battery" }
+Number  ChAmi_FGSD_Temp {zwave="13:command=sensor_multilevel,sensor_type=1" }
+
 /* Ch Thomas */
 Number AZ_thomas_OpMode {modbus="slaveZone5:0"}
 Switch Zone_thomas_OnOff
