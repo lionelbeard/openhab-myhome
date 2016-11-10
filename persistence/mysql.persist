@@ -5,7 +5,7 @@ Strategies {
 }
 
 Items {
-	Programmation, Zone_salon_outofschedule, Zone_bureau_outofschedule, Zone_parents_outofschedule, Zone_ami_outofschedule, Zone_thomas_outofschedule, Zone_filles_outofschedule, VMC_rapide, VMC_auto, High_hum_sallebain, High_hum_salledeau, Filtration_piscine_auto, Filtration_heuredebut, Filtration_heurefin, Filtration_heuredebut_joda, Filtration_heurefin_joda, Filtration_piscine_force, Filtration_piscine_2h, Filtration_etat_auto_avant_force, Filtration_anti_gel : strategy = everyChange, restoreOnStartup
+	Programmation, Zone_salon_outofschedule, Zone_bureau_outofschedule, Zone_parents_outofschedule, Zone_ami_outofschedule, Zone_thomas_outofschedule, Zone_filles_outofschedule, VMC_rapide, VMC_auto, High_hum_sallebain, High_hum_salledeau, Filtration_piscine_auto, Filtration_heuredebut, Filtration_heurefin, Filtration_heuredebut_joda, Filtration_heurefin_joda, Filtration_piscine_force, Filtration_etat_auto_avant_force, Filtration_anti_gel : strategy = everyChange, restoreOnStartup
 	
 	Temp_salon, Temp_bureau, Temp_chparents, Temp_chami, Temp_chthomas, Temp_chfilles, Temp_sallebain, Temp_salledeau, Temp_outside, Temp_eau_piscine, Temp_exterieur_piscine : strategy = everyHour
 	

@@ -215,8 +215,9 @@ sitemap home label="La Maison"
 			Text item=Filtration_piscine label="Etat filtration [%s]" icon="piscine"
 			Text item=Filtration_heuredebut label="Heure de début [%s]" icon="calendar"
 			Text item=Filtration_heurefin label="Heure de fin [%s]" icon="calendar"
-			Switch item=Filtration_piscine_force label="Forcer la filtration" icon="piscine"
-			Switch item=Filtration_piscine_2h label="Filtration pendant 2H" icon="piscine" visibility=[Filtration_piscine_force=="OFF"]
+			Selection item=Filtration_piscine_force label="Forcer la filtration" mappings=[0=OFF,2=2h,4=4h,99=Continue] icon="piscine"
+			//Switch item=Filtration_piscine_force label="Forcer la filtration" icon="piscine"
+//			Switch item=Filtration_piscine_2h label="Filtration pendant 2H" icon="piscine" visibility=[Filtration_piscine_force=="OFF"]
 			Text item=Filtration_anti_gel label="Mode anti-gel [%s]" icon="piscine"
 			Chart item=gPiscine icon="temperature" label="Historique" period=W refresh=60000
     	}
