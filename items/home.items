@@ -209,6 +209,7 @@ String Filtration_heuredebut_joda
 String Filtration_heurefin_joda
 Switch Filtration_piscine {exec=">[OFF:/usr/bin/sudo /usr/bin/ssh pi@pi-stoch /usr/local/bin/relayControl -c 1 /dev/ttyUSB0] >[ON:/usr/bin/sudo /usr/bin/ssh pi@pi-stoch /usr/local/bin/relayControl -o 1 /dev/ttyUSB0] <[/usr/bin/sudo /usr/bin/ssh pi@pi-stoch /usr/local/bin/relayControl -s 1 /dev/ttyUSB0:60000:REGEX((.*?))]"}
 Switch Filtration_piscine_force
+Switch Filtration_piscine_2h
 Switch Filtration_etat_auto_avant_force
 Switch Filtration_anti_gel
 //Number Temp_outside (gExterieur) {exec="<[/bin/cat /tmp/oregon_ch3.temp:60000:REGEX((.*?))]"}
