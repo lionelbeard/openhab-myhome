@@ -1323,9 +1323,11 @@ then
 	    logInfo("piscine", Filtration_heurefin_joda.toString)	    
 
 		Tfiltration_start = createTimer(filtration_time_start) [| sendCommand(Filtration_piscine, ON)]
-        Tfiltration_end = createTimer(filtration_time_end) [| if (Filtration_piscine_force.state == OFF) sendCommand(Filtration_piscine, OFF)]
+        Tfiltration_end = createTimer(filtration_time_end) [| if ((Filtration_piscine_force.state as DecimalType).intValue == 0) sendCommand(Filtration_piscine, OFF)]
         
         logInfo("piscine", "End piscine_create_daily_timers rule.")
+        sendMail("lionel@beard.fr", "[Piscine] Horaires de filtration", filtration_time_start.toString.concat(" ").concat(filtration_time_end.toString))
+
 end
 
 /* créer règle pour démarrage openhab:
@@ -1350,7 +1352,7 @@ then
 		{
 			// on est avant l'heure de début => on crée les deux timers
 			Tfiltration_start = createTimer(filtration_time_start) [| sendCommand(Filtration_piscine, ON)]
-			Tfiltration_end = createTimer(filtration_time_end) [| if (Filtration_piscine_force.state == OFF) sendCommand(Filtration_piscine, OFF)]
+			Tfiltration_end = createTimer(filtration_time_end) [| if ((Filtration_piscine_force.state as DecimalType).intValue == 0) sendCommand(Filtration_piscine, OFF)]
 		}
 		else if((filtration_time_start.beforeNow) && (filtration_time_end.afterNow))
 		{
@@ -1360,12 +1362,12 @@ then
 				sendCommand(Filtration_piscine, ON)
 			}
 			Tfiltration_start = null
-			Tfiltration_end = createTimer(filtration_time_end) [| if (Filtration_piscine_force.state == OFF) sendCommand(Filtration_piscine, OFF)]
+			Tfiltration_end = createTimer(filtration_time_end) [| if ((Filtration_piscine_force.state as DecimalType).intValue == 0) sendCommand(Filtration_piscine, OFF)]
 		}
 		else
 		{
 			// on est après la date de fin => on arrête la pompe si besoin
-			if((Filtration_piscine.state == ON) && (Filtration_piscine_force.state == OFF))
+			if((Filtration_piscine.state == ON) && ((Filtration_piscine_force.state as DecimalType).intValue == 0))
 			{
 				sendCommand(Filtration_piscine, OFF)
 			}
@@ -1381,6 +1383,9 @@ rule "piscine_auto_mode_changed"
 when
 	Item Filtration_piscine_auto changed
 then
+
+        var Integer force_state = (Filtration_piscine_force.state as DecimalType).intValue
+
 	// si on quitte le mode auto, on annule les timers
 	if(Filtration_piscine_auto.state == OFF)
 	{
@@ -1397,7 +1402,7 @@ then
 		
 		// Si la filtration est en marche lorsqu'on enlève le mode auto
 		// il faut passer le swith à ON pour refléter l'état actuel de la filtration (et ne pas la modifier)
-		if(Filtration_piscine.state == ON)
+		if((Filtration_piscine.state == ON) && (force_state == 0))
 			sendCommand(Filtration_piscine_force, 99)
 	}
 	
@@ -1408,7 +1413,7 @@ then
 		{
 			// on est avant l'heure de début => on crée les deux timers
 			Tfiltration_start = createTimer(filtration_time_start) [| sendCommand(Filtration_piscine, ON)]
-			Tfiltration_end = createTimer(filtration_time_end) [| if (Filtration_piscine_force.state == OFF) sendCommand(Filtration_piscine, OFF)]
+			Tfiltration_end = createTimer(filtration_time_end) [| if ((Filtration_piscine_force.state as DecimalType).intValue == 0) sendCommand(Filtration_piscine, OFF)]
 		}
 		else if((filtration_time_start.beforeNow) && (filtration_time_end.afterNow))
 		{
@@ -1418,12 +1423,12 @@ then
 				sendCommand(Filtration_piscine, ON)
 			}
 			Tfiltration_start = null
-			Tfiltration_end = createTimer(filtration_time_end) [| if (Filtration_piscine_force.state == OFF) sendCommand(Filtration_piscine, OFF)]
+			Tfiltration_end = createTimer(filtration_time_end) [| if ((Filtration_piscine_force.state as DecimalType).intValue == 0) sendCommand(Filtration_piscine, OFF)]
 		}
 		else
 		{
 			// on est après la date de fin => on arrête la pompe si besoin
-			if((Filtration_piscine.state == ON) && (Filtration_piscine_force.state == OFF))
+			if((Filtration_piscine.state == ON) && ((Filtration_piscine_force.state as DecimalType).intValue == 0))
 			{
 				sendCommand(Filtration_piscine, OFF)
 			}
@@ -1435,13 +1440,11 @@ end
 
 rule "piscine_force_filtration"
 when
-	Item Filtration_piscine_force changed
+	Item Filtration_piscine_force received command
 then
 	// On joue sur le switch filtration auto
 	// Si force=ON: on démarre le moteur si besoin, on sauvegarde l'état du mode auto dans un item persistant et on désactive le mode auto si besoin
 	// Si force=OFF: on rétablit l'état de la filtration auto à partir de l'item persistant de sauvegarde. Si dernier état était OFF, on éteint le moteur
-
-	//!!!! Qd on met 2h, l'item passe en continu quelques secondes après !!!!
 
 	var Integer force_state = (Filtration_piscine_force.state as DecimalType).intValue
 
@@ -1464,7 +1467,7 @@ then
 		if(force_state != 99)
 		{
                		createTimer(now.plusHours(force_state)) [|
-                                sendCommand(Filtration_piscine_force, 0)
+                                sendCommand(Filtration_piscine_force, 0)]
 		}
 	}
 	else // OFF
