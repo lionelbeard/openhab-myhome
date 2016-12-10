@@ -1540,6 +1540,9 @@ then
 	if((temp_air <= -2) && (Filtration_anti_gel.state == OFF) && (Filtration_piscine_force.state == OFF))
 	{
 		logInfo("piscine", "Enter anti-frozen mode")
+                pushover("Mode anti-gel enclenché", -1)
+                sendMail("lionel@beard.fr", "[Piscine] Début anti-gel", "Mode anti-gel enclenché")
+
 		sendCommand(Filtration_anti_gel, ON)
 		sendCommand(Filtration_piscine_force, ON)
 	}
@@ -1547,6 +1550,9 @@ then
 	if((temp_air > 0) && (Filtration_anti_gel.state == ON))
 	{
 		logInfo("piscine", "Leave anti-frozen mode")
+                pushover("Mode anti-gel stoppé", -1)
+                sendMail("lionel@beard.fr", "[Piscine] Fin anti-gel", "Mode anti-gel stoppé")
+
 		sendCommand(Filtration_piscine_force, OFF)
 		sendCommand(Filtration_anti_gel, OFF)
 	}
