@@ -45,6 +45,7 @@ var DateTime filtration_time_start
 var DateTime filtration_time_end
 var Timer Tfiltration_start
 var Timer Tfiltration_end
+var Timer Tfiltration_force
 
 /***************************************** */
 /* Gestion des paramètres généraux Airzone */
@@ -1455,8 +1456,10 @@ then
 			sendCommand(Filtration_piscine, ON)
 			
 		// On sauvegarde l'état du mode auto
-		//!!!! Si on switche entre les différents modes de force sans passer par off, l'état sauvegardé n'est plus l'initial!!!!
-		sendCommand(Filtration_etat_auto_avant_force, Filtration_piscine_auto.state.toString)
+		//!!!! Si on switche entre les différents modes de force sans passer par off, l'$état sauvegardé n'est plus l'initial!!!!
+		// on ne sauvegarde que si l'état précédent de l'item était OFF
+		if ((Filtration_piscine_force.previousState.state as DecimalType).intValue == 0)
+			sendCommand(Filtration_etat_auto_avant_force, Filtration_piscine_auto.state.toString)
 		
 		// On désactive le mode auto si ON => désactivation des timers
 		if(Filtration_piscine_auto.state == ON)
@@ -1466,7 +1469,7 @@ then
 		//!!!!! il faut sauvegarder le timer pour le supprimer si le mode de force est modifié avant expiration du timer!!!
 		if(force_state != 99)
 		{
-               		createTimer(now.plusHours(force_state)) [|
+               		Tfiltration_force = createTimer(now.plusHours(force_state)) [|
                                 sendCommand(Filtration_piscine_force, 0)]
 		}
 	}
@@ -1474,10 +1477,17 @@ then
 	{
 		// On rétablit l'état du mode auto, les timers sont rétablis si besoin
 		sendCommand(Filtration_piscine_auto, Filtration_etat_auto_avant_force.state.toString)
-		
+	
 		// Si mode auto était positionné à OFF, on éteint le moteur
 		if (Filtration_etat_auto_avant_force.state == OFF)
 			sendCommand(Filtration_piscine, OFF)
+
+                // On annule le timer si besoin
+                if (Tfiltration_force != null)
+                {
+                        Tfiltration_force.cancel
+                        Tfiltration_force = null
+                }
 	}
 end
 
