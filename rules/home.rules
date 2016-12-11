@@ -47,6 +47,50 @@ var Timer Tfiltration_start
 var Timer Tfiltration_end
 var Timer Tfiltration_force
 
+
+/***************************************** */
+/* Rapport quotidien			   */
+/***************************************** */
+
+rule "daily_report"
+when
+        Time cron "0 0 08 * * ?"   // Every day @ 08am, on envoie un rapport
+then
+	var Integer prog = (Programmation.state as DecimalType).intValue
+	var String prog_str
+	var Integer mode = (Mode.state as DecimalType).intValue
+	var String mode_str
+	var String piscine_auto_str
+
+	if (prog == 0)
+		prog_str = "Aucune"
+	if (prog == 1)
+		prog_str = "Semaine de travail"
+	if (prog == 2)
+		prog_str = "Toujours présent"
+	if (prog == 3)
+		prog_str = "Absence prolongée"
+
+	if (mode == 0)
+		mode_str = "Off"
+	if (mode == 1)
+		mode_str = "Froid"
+	if (mode == 3)
+		mode_str = "Ventilation"
+	if (mode == 4)
+		mode_str = "Chaud"
+	if (mode == 6)
+		mode_str = "Déshumidification"
+
+	if (Filtration_piscine_auto.state == 0)
+		piscine_auto_str = "OFF"
+	else
+		piscine_auto_str = "ON"
+
+        sendMail("lionel@beard.fr", "[Domobeyou] Rapport quotidien", "CHAUFFAGE\nMode: ".concat(mode_str).concat("\nProgrammation: ").concat(prog_str).concat("\n\nPISCINE\nFiltration automatique: ").concat(piscine_auto_str).concat("\nHeure de début: ").concat(Filtration_heuredebut.state.toString).concat("\nHeure de fin: ").concat(Filtration_heurefin.state.toString))
+end
+
+
 /***************************************** */
 /* Gestion des paramètres généraux Airzone */
 /***************************************** */
