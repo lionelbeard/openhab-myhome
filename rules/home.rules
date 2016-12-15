@@ -936,6 +936,13 @@ end
 /* Gestion des températures désirées des zones */
 /********************************************* */
 
+/** Chauffage electrique:
+- creer un autre setpoint 'Temp_salon_setpoint_global' et rendre Temp_salon_setpoint invisible
+- si le mode elec est activé, Temp_salon_setpoint est bloqué à la temp limite demandée à la PAC, sinon Temp_salon_setpoint = Temp_salon_setpoint_global
+- si le mode elec est activé, écouter l'item Temp_salon et agir sur les chauffages elec suivant la consigne Temp_salon_setpoint_global
+- la programmation doit agir sur Temp_salon_setpoint_global au lieu de Temp_salon_setpoint
+!! Attention à gérer l'extinction du chauff elec si la PAC n'est pas en mode chaud
+**/
 rule "az_temp_setpoint_salon_display"
 when
 	System started or
@@ -1535,42 +1542,6 @@ then
 	}
 end
 
-// Cette règle est très semblable à la rule pour le force
-// il aurait été certainement possible d'en faire qu'une
-#rule "piscine_filtration_2H"
-#when
-#	Item Filtration_piscine_2h changed
-#then
-#	if (Filtration_piscine_2h.state == ON) 
-#	{
-#                // On force le démarrage du moteur si besoin
-#                if(Filtration_piscine.state == OFF)
-#                        sendCommand(Filtration_piscine, ON)
-#
-#                // On sauvegarde l'état du mode auto
-#                sendCommand(Filtration_etat_auto_avant_force, Filtration_piscine_auto.state.toString)
-#
-#                // On désactive le mode auto si ON => désactivation des timers
-#                if(Filtration_piscine_auto.state == ON)
-#                        sendCommand(Filtration_piscine_auto, OFF)
-#
-#		// On cree le timer de 2H
-#	        createTimer(now.plusHours(2)) [|
-#       		         sendCommand(Filtration_piscine_2h, OFF)
-#        	]
-#
-#	}
-#	else // désactivation de l'item, appelé soit manuellement, soit à la fin du timer
-#	{
-#                // On rétablit l'état du mode auto, les timers sont rétablis si besoin
-#                sendCommand(Filtration_piscine_auto, Filtration_etat_auto_avant_force.state.toString)
-#
-#                // Si mode auto était positionné à OFF, on éteint le moteur
-#                if (Filtration_etat_auto_avant_force.state == OFF)
-#                        sendCommand(Filtration_piscine, OFF)
-#	}
-#end
-
 // hors-gel (meilleure idée?) : si t°<X, mettre le switch force à ON. 
 rule "piscine_hors_gel"
 when
@@ -1579,6 +1550,7 @@ then
 	var Float temp_air
 	temp_air = (Temp_exterieur_piscine.state as DecimalType).floatValue
 
+	logInfo("piscine", temp_air.toString)
 	// On passe en anti-gel si le force n'est pas déjà à ON (et que le moteur tourne déjà), afin d'éviter
 	// l'arrêt du moteur lors de la sortie du mode anti-gel alors qu'il avait été forcé manuellement précédemment
 	if((temp_air <= -2) && (Filtration_anti_gel.state == OFF) && (Filtration_piscine_force.state == OFF))

@@ -31,18 +31,16 @@ sitemap home label="La Maison"
 		Switch item=Zone_salon_OnOff label="Zone activée"
 		Switch item=Zone_salon_outofschedule label="Exclure de la programmation" visibility=[Programmation!=0]
 		Text item=AZ_temp_salon_tenths visibility=[<0]
-		Text item=Temp_salon label="Temperature actuelle [%.1f °C]" icon="temperature"
+		Text item=Temp_salon label="Température actuelle [%.1f °C]" icon="temperature"
 		Text item=AZ_temp_setpoint_salon_tenths visibility=[<0]
 		Setpoint item=Temp_salon_setpoint label="Temperature souhaitée [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
 		Text item=AZ_salon_status_register visibility=[<0]
 		Text item=Zone_salon_volet_status icon="grille"
-/*		Text label="Détecteur d'incendie" icon="incendie" valuecolor=[Salon_FGSD_Smoke=="OPEN"="red", Salon_FGSD_Heat=="OPEN"="red", Salon_FGSD_Tamper=="OPEN"="red", Salon_FGSD_Battery<="10"="orange", Salon_FGSD_Battery<="2"="red"] {
-			Text item=Salon_FGSD_Smoke icon="incendie" label="Alarme fumée [MAP(fr.map):%s]"
-			Text item=Salon_FGSD_Heat icon="incendie" label="Alarme chaleur [MAP(fr.map):%s]"
-			Text item=Salon_FGSD_Tamper icon="incendie" label="Alarme intrusion [MAP(fr.map):%s]"
-			Text item=Salon_FGSD_Battery icon="batterie" label="Batterie [%s %%]"
-			Text item=Salon_FGSD_Temp icon="temperature" label="Température [%.1f°C]"
-		}*/
+		Text label="Chauffage électrique" icon="heat" valuecolor=[ChauffElec_salon_OnOff=="OFF"="red", ChauffElec_salon_OnOff=="ON"="green"] {
+			Switch item=ChauffElec_salon_OnOff label="Chauffage activé"
+			Setpoint item=Temp_PAC_salon label="Température max de la PAC [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
+			Selection item=ChauffElec_salon_command label="Consigne chauffage" icon="dimmablelight" mappings=[0="Arret", 15="Hors gel", 25="Eco", 35="Confort -2°C", 45="Confort -1°C", 100="Confort"]
+		}
 		Group item=gFreebox label="Freebox" icon="freebox-player2" {
 			Group item=gfbCalls label="Appels téléphoniques" icon="phone" {
 				Text item=freebox_call_lastnum

@@ -37,8 +37,13 @@ Number AZ_temp_salon_tenths {modbus="slaveZone1:8"}
 Number Temp_salon
 Number AZ_temp_setpoint_salon_tenths {modbus="slaveZone1:3"}
 Number Temp_salon_setpoint
+Number Temp_salon_setpoint_global
 Number AZ_salon_status_register {modbus="slaveZone1:9"}
 String Zone_salon_volet_status "Etat de la grille [%s]"
+
+Switch ChauffElec_salon_OnOff
+Number Temp_PAC_salon
+Dimmer ChauffElec_salon_command /*{zwave="X:command=switch_multilevel"}*/
 
 /*
 Contact Salon_FGSD_Smoke {zwave="9:command=sensor_alarm,alarm_type=1,respond_to_basic=true" }
