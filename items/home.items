@@ -43,7 +43,7 @@ String Zone_salon_volet_status "Etat de la grille [%s]"
 
 Switch ChauffElec_salon_OnOff
 Number Temp_PAC_salon
-Dimmer ChauffElec_salon_command /*{zwave="X:command=switch_multilevel"}*/
+Dimmer ChauffElec_salon_command {zwave="14:command=switch_multilevel"}
 
 /*
 Contact Salon_FGSD_Smoke {zwave="9:command=sensor_alarm,alarm_type=1,respond_to_basic=true" }

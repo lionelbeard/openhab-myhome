@@ -1553,23 +1553,23 @@ then
 	logInfo("piscine", temp_air.toString)
 	// On passe en anti-gel si le force n'est pas déjà à ON (et que le moteur tourne déjà), afin d'éviter
 	// l'arrêt du moteur lors de la sortie du mode anti-gel alors qu'il avait été forcé manuellement précédemment
-	if((temp_air <= -2) && (Filtration_anti_gel.state == OFF) && (Filtration_piscine_force.state == OFF))
+	if((temp_air <= -2.5) && (Filtration_anti_gel.state == OFF) && ((Filtration_piscine_force.state as DecimalType).intValue == 0))
 	{
 		logInfo("piscine", "Enter anti-frozen mode")
                 pushover("Mode anti-gel enclenché", -1)
                 sendMail("lionel@beard.fr", "[Piscine] Début anti-gel", "Mode anti-gel enclenché")
 
 		sendCommand(Filtration_anti_gel, ON)
-		sendCommand(Filtration_piscine_force, ON)
+		sendCommand(Filtration_piscine_force, 99)
 	}
 	
-	if((temp_air > 0) && (Filtration_anti_gel.state == ON))
+	if((temp_air >= -1.5) && (Filtration_anti_gel.state == ON))
 	{
 		logInfo("piscine", "Leave anti-frozen mode")
                 pushover("Mode anti-gel stoppé", -1)
                 sendMail("lionel@beard.fr", "[Piscine] Fin anti-gel", "Mode anti-gel stoppé")
 
-		sendCommand(Filtration_piscine_force, OFF)
+		sendCommand(Filtration_piscine_force, 0)
 		sendCommand(Filtration_anti_gel, OFF)
 	}
 end
