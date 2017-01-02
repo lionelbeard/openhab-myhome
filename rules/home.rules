@@ -1015,9 +1015,9 @@ then
         var Number Temp_setpoint = Temp_salon_setpoint_global.state as DecimalType
 	var Number Temp_salon_var = Temp_salon.state as DecimalType
 
-        var Integer pac_mode = Mode.state as DecimalType
+        var Integer pac_mode = (Mode.state as DecimalType).intValue
 
-	if ((pac_mode == 4) && (Zone_salon_OnOff.state == ON)) //PAC en mode chauffage et zone activée
+	if ((pac_mode.compareTo(4) == 0) && (Zone_salon_OnOff.state == ON)) //PAC en mode chauffage et zone activée
 	{
 		logInfo("piscine", "Entering chauff control")
 		logInfo("piscine", "=> ChauffElec_salon_auto.state="+ChauffElec_salon_auto.state.toString)
