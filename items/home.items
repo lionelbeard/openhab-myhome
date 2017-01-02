@@ -41,7 +41,7 @@ Number Temp_salon_setpoint_global
 Number AZ_salon_status_register {modbus="slaveZone1:9"}
 String Zone_salon_volet_status "Etat de la grille [%s]"
 
-Switch ChauffElec_salon_OnOff
+Switch ChauffElec_salon_auto
 Number Temp_PAC_salon
 Dimmer ChauffElec_salon_command {zwave="14:command=switch_multilevel"}
 

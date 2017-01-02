@@ -33,12 +33,13 @@ sitemap home label="La Maison"
 		Text item=AZ_temp_salon_tenths visibility=[<0]
 		Text item=Temp_salon label="Température actuelle [%.1f °C]" icon="temperature"
 		Text item=AZ_temp_setpoint_salon_tenths visibility=[<0]
-		Setpoint item=Temp_salon_setpoint label="Temperature souhaitée [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
+		Setpoint item=Temp_salon_setpoint_global label="Temperature souhaitée [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
+		Text item=Temp_salon_setpoint label="Temperature consigne PAC [%.1f °C]" icon="temperature"
 		Text item=AZ_salon_status_register visibility=[<0]
 		Text item=Zone_salon_volet_status icon="grille"
-		Text label="Chauffage électrique" icon="heat" valuecolor=[ChauffElec_salon_OnOff=="OFF"="red", ChauffElec_salon_OnOff=="ON"="green"] {
-			Switch item=ChauffElec_salon_OnOff label="Chauffage activé"
-			Setpoint item=Temp_PAC_salon label="Température max de la PAC [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
+		Text label="Chauffage électrique" icon="heat" valuecolor=[ChauffElec_salon_auto=="OFF"="red", ChauffElec_salon_auto=="ON"="green"] {
+			Switch item=ChauffElec_salon_auto label="Mode automatique"
+			Setpoint item=Temp_PAC_salon label="Température max PAC [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
 			Selection item=ChauffElec_salon_command label="Consigne chauffage" icon="dimmablelight" mappings=[0="Arret", 15="Hors gel", 25="Eco", 35="Confort -2°C", 45="Confort -1°C", 100="Confort"]
 		}
 		Group item=gFreebox label="Freebox" icon="freebox-player2" {

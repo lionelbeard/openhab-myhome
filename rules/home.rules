@@ -280,7 +280,7 @@ rule "Tempo init persistence"
 when 
 	System started
 then
-	createTimer(now.plusSeconds(15)) [|
+	createTimer(now.plusSeconds(60)) [|
 		sendCommand(Tempo_init_persist, ON)
 	]
 end
@@ -324,7 +324,7 @@ then
 	if(prog == 1) // uniquement pour le programme "Semaine de travail"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_present)
+			sendCommand(Temp_salon_setpoint_global, salon_present)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_nuit) // pas besoin de chauffer la salle de jeu le matin
 /*		if(Zone_parents_outofschedule.state == OFF)
@@ -347,7 +347,7 @@ then
 	if(prog == 1) // uniquement pour le programme "Semaine de travail"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_present)
+			sendCommand(Temp_salon_setpoint_global, salon_present)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_present)
 		if(Zone_parents_outofschedule.state == OFF)
@@ -370,7 +370,7 @@ then
 	if(prog == 1) // uniquement pour le programme "Semaine de travail"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_absent)
+			sendCommand(Temp_salon_setpoint_global, salon_absent)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_absent) // pas besoin de chauffer la salle de jeu le matin
 		if(Zone_parents_outofschedule.state == OFF)
@@ -396,7 +396,7 @@ then
 	if(prog == 1) // uniquement pour le programme "Semaine de travail"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_present)
+			sendCommand(Temp_salon_setpoint_global, salon_present)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_present)
 		if(Zone_parents_outofschedule.state == OFF)
@@ -438,7 +438,7 @@ then
 	if(prog == 1) // uniquement pour le programme "Semaine de travail"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_present)
+			sendCommand(Temp_salon_setpoint_global, salon_present)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_present)
 		if(Zone_parents_outofschedule.state == OFF)
@@ -462,7 +462,7 @@ then
 	if(prog == 1) // uniquement pour le programme "Semaine de travail"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_nuit)
+			sendCommand(Temp_salon_setpoint_global, salon_nuit)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_nuit)
 		if(Zone_parents_outofschedule.state == OFF)
@@ -486,7 +486,7 @@ then
 	if(prog == 2) // uniquement pour le programme "Toujours présent"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_present)
+			sendCommand(Temp_salon_setpoint_global, salon_present)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_present)
 		postUpdate(Programmation_phase, "7h30-22h30: salon à " + salon_present.toString() + "°C")
@@ -538,7 +538,7 @@ then
 	if(prog == 2) // uniquement pour le programme "Toujours présent"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_nuit)
+			sendCommand(Temp_salon_setpoint_global, salon_nuit)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_nuit)
 		postUpdate(Programmation_phase, "22h30-7h30: salon à " + salon_nuit.toString() + "°C")		
@@ -557,7 +557,7 @@ then
 	if(prog == 3) // uniquement pour le programme "Absence prolongée"
 	{
 		if(Zone_salon_outofschedule.state == OFF)
-			sendCommand(Temp_salon_setpoint, salon_absence_prolongee)
+			sendCommand(Temp_salon_setpoint_global, salon_absence_prolongee)
 		if(Zone_bureau_outofschedule.state == OFF)
  			sendCommand(Temp_bureau_setpoint, bureau_absence_prolongee)
 		if(Zone_parents_outofschedule.state == OFF)
@@ -729,6 +729,14 @@ then
     var Integer new_register_value = item_value.shiftLeft(2).bitwiseOr(AND_result)
 
 	sendCommand(AZ_salon_OpMode, new_register_value)
+
+    // Gestion du chauffage electrique
+    if (Zone_salon_OnOff.state == ON)
+        // On envoie une "fausse" commande afin de provoquer la réinitialisation du chauffage
+	sendCommand(Temp_salon_setpoint_global, (Temp_salon_setpoint_global.state as DecimalType))
+    else
+	// on eteint
+ 	sendCommand(ChauffElec_salon_command, 0)
 end
 
 rule "az_bureau_operation_mode_dispatch"
@@ -943,6 +951,100 @@ end
 - la programmation doit agir sur Temp_salon_setpoint_global au lieu de Temp_salon_setpoint
 !! Attention à gérer l'extinction du chauff elec si la PAC n'est pas en mode chaud
 **/
+
+/* Pas nécessaire
+rule "chauffelec_mode_auto"
+when
+        Item ChauffElec_salon_auto changed
+then
+        var Integer pac_mode = Mode.state as DecimalType
+
+        if ((ChauffElec_salon_auto.state == ON) && (pac_mode != 4))
+                sendCommand(ChauffElec_salon_auto, OFF)
+end
+*/
+
+rule "temp_salon_setpoint_update"
+when
+	Item Temp_salon_setpoint_global received command
+then
+	var Float PAC_temp_limite = (Temp_PAC_salon.state as DecimalType).floatValue
+	var Float Temp_setpoint = (Temp_salon_setpoint_global.state as DecimalType).floatValue
+        var Float Temp_salon_var = (Temp_salon.state as DecimalType).floatValue
+
+        var Integer pac_mode = (Mode.state as DecimalType).intValue
+ 
+	logInfo("piscine","Setpoint="+Temp_setpoint.toString)
+        logInfo("piscine","Temp="+Temp_salon_var.toString)
+        logInfo("piscine","Command="+ChauffElec_salon_command.state.toString)
+	logInfo("piscine","pac_mode="+pac_mode)
+	logInfo("piscine","Zone_salon_OnOff="+Zone_salon_OnOff.state.toString)
+
+	if ((ChauffElec_salon_auto.state == ON) && (pac_mode.compareTo(4) == 0) && (Zone_salon_OnOff.state == ON))
+	{
+		logInfo("piscine","AUTO = ON")
+		if (Temp_setpoint > PAC_temp_limite)
+		{
+			logInfo("piscine", "Temp_setpoint > PAC_temp_limite")
+		        // Requested beyond current temp, starting radiators
+        		if ((Temp_setpoint > Temp_salon_var) && (ChauffElec_salon_command.state != 100))
+			{
+				logInfo("piscine", "Allumage radiateurs")
+                		sendCommand(ChauffElec_salon_command, 100)
+			}
+			// Requested below current temp, stopping radiators
+			if ((Temp_setpoint <= Temp_salon_var) && (ChauffElec_salon_command.state != 0))
+			{
+				logInfo("piscine", "Extinction radiateurs")
+                	        sendCommand(ChauffElec_salon_command, 0)
+			}
+                        // Fix PAC temperature
+                        Temp_setpoint = PAC_temp_limite
+		}
+	}
+	// Set PAC requested temperature
+	sendCommand(Temp_salon_setpoint, Temp_setpoint)
+end
+
+rule "chauffelec_control"
+when
+	Item Tempo_init_persist received command or
+	Item Temp_salon changed
+then
+	var Number PAC_temp_limite = Temp_PAC_salon.state as DecimalType
+        var Number Temp_setpoint = Temp_salon_setpoint_global.state as DecimalType
+	var Number Temp_salon_var = Temp_salon.state as DecimalType
+
+        var Integer pac_mode = Mode.state as DecimalType
+
+	if ((pac_mode == 4) && (Zone_salon_OnOff.state == ON)) //PAC en mode chauffage et zone activée
+	{
+		logInfo("piscine", "Entering chauff control")
+		logInfo("piscine", "=> ChauffElec_salon_auto.state="+ChauffElec_salon_auto.state.toString)
+        	logInfo("piscine", "=> Setpoint="+Temp_setpoint.toString)
+        	logInfo("piscine", "=> PAC_temp_limite="+PAC_temp_limite.toString)
+
+		if ((ChauffElec_salon_auto.state == ON) && (Temp_setpoint > PAC_temp_limite))
+		{
+			logInfo("piscine","Setpoint="+Temp_setpoint.toString)
+	        	logInfo("piscine","Temp="+Temp_salon_var.toString)
+        		logInfo("piscine","Command="+ChauffElec_salon_command.state.toString)
+
+			if ((Temp_salon_var <= (Temp_setpoint - 0.1)) && (ChauffElec_salon_command.state != 100))
+			{
+                        	logInfo("piscine", "Allumage radiateurs")
+				sendCommand(ChauffElec_salon_command, 100)
+			}	
+
+			if ((Temp_salon_var >= Temp_setpoint) && (ChauffElec_salon_command.state != 0))
+			{
+                       		logInfo("piscine", "Extinction radiateurs")
+				sendCommand(ChauffElec_salon_command, 0)
+			}
+		}
+	}
+end
+
 rule "az_temp_setpoint_salon_display"
 when
 	System started or
@@ -1550,7 +1652,6 @@ then
 	var Float temp_air
 	temp_air = (Temp_exterieur_piscine.state as DecimalType).floatValue
 
-	logInfo("piscine", temp_air.toString)
 	// On passe en anti-gel si le force n'est pas déjà à ON (et que le moteur tourne déjà), afin d'éviter
 	// l'arrêt du moteur lors de la sortie du mode anti-gel alors qu'il avait été forcé manuellement précédemment
 	if((temp_air <= -2.5) && (Filtration_anti_gel.state == OFF) && ((Filtration_piscine_force.state as DecimalType).intValue == 0))
