@@ -974,32 +974,37 @@ then
 
         var Integer pac_mode = (Mode.state as DecimalType).intValue
  
-	logInfo("piscine","Setpoint="+Temp_setpoint.toString)
-        logInfo("piscine","Temp="+Temp_salon_var.toString)
-        logInfo("piscine","Command="+ChauffElec_salon_command.state.toString)
-	logInfo("piscine","pac_mode="+pac_mode)
-	logInfo("piscine","Zone_salon_OnOff="+Zone_salon_OnOff.state.toString)
+	logInfo("radiateurs","Setpoint="+Temp_setpoint.toString)
+        logInfo("radiateurs","Temp="+Temp_salon_var.toString)
+        logInfo("radiateurs","Command="+ChauffElec_salon_command.state.toString)
+	logInfo("radiateurs","pac_mode="+pac_mode)
+	logInfo("radiateurs","Zone_salon_OnOff="+Zone_salon_OnOff.state.toString)
 
 	if ((ChauffElec_salon_auto.state == ON) && (pac_mode.compareTo(4) == 0) && (Zone_salon_OnOff.state == ON))
 	{
-		logInfo("piscine","AUTO = ON")
+		logInfo("radiateurs","AUTO = ON")
 		if (Temp_setpoint > PAC_temp_limite)
 		{
-			logInfo("piscine", "Temp_setpoint > PAC_temp_limite")
+			logInfo("radiateurs", "Temp_setpoint > PAC_temp_limite")
 		        // Requested beyond current temp, starting radiators
         		if ((Temp_setpoint > Temp_salon_var) && (ChauffElec_salon_command.state != 100))
 			{
-				logInfo("piscine", "Allumage radiateurs")
+				logInfo("radiateurs", "Allumage radiateurs")
                 		sendCommand(ChauffElec_salon_command, 100)
 			}
 			// Requested below current temp, stopping radiators
 			if ((Temp_setpoint <= Temp_salon_var) && (ChauffElec_salon_command.state != 0))
 			{
-				logInfo("piscine", "Extinction radiateurs")
+				logInfo("radiateurs", "Extinction radiateurs")
                 	        sendCommand(ChauffElec_salon_command, 0)
 			}
                         // Fix PAC temperature
                         Temp_setpoint = PAC_temp_limite
+		}
+		else if (ChauffElec_salon_command.state != 0)
+		{
+                	logInfo("radiateurs", "Extinction radiateurs")
+                        sendCommand(ChauffElec_salon_command, 0)
 		}
 	}
 	// Set PAC requested temperature
@@ -1019,26 +1024,26 @@ then
 
 	if ((pac_mode.compareTo(4) == 0) && (Zone_salon_OnOff.state == ON)) //PAC en mode chauffage et zone activée
 	{
-		logInfo("piscine", "Entering chauff control")
-		logInfo("piscine", "=> ChauffElec_salon_auto.state="+ChauffElec_salon_auto.state.toString)
-        	logInfo("piscine", "=> Setpoint="+Temp_setpoint.toString)
-        	logInfo("piscine", "=> PAC_temp_limite="+PAC_temp_limite.toString)
+		logInfo("radiateurs", "Entering chauff control")
+		logInfo("radiateurs", "=> ChauffElec_salon_auto.state="+ChauffElec_salon_auto.state.toString)
+        	logInfo("radiateurs", "=> Setpoint="+Temp_setpoint.toString)
+        	logInfo("radiateurs", "=> PAC_temp_limite="+PAC_temp_limite.toString)
 
 		if ((ChauffElec_salon_auto.state == ON) && (Temp_setpoint > PAC_temp_limite))
 		{
-			logInfo("piscine","Setpoint="+Temp_setpoint.toString)
-	        	logInfo("piscine","Temp="+Temp_salon_var.toString)
-        		logInfo("piscine","Command="+ChauffElec_salon_command.state.toString)
+			logInfo("radiateurs","Setpoint="+Temp_setpoint.toString)
+	        	logInfo("radiateurs","Temp="+Temp_salon_var.toString)
+        		logInfo("radiateurs","Command="+ChauffElec_salon_command.state.toString)
 
 			if ((Temp_salon_var <= (Temp_setpoint - 0.1)) && (ChauffElec_salon_command.state != 100))
 			{
-                        	logInfo("piscine", "Allumage radiateurs")
+                        	logInfo("radiateurs", "Allumage radiateurs")
 				sendCommand(ChauffElec_salon_command, 100)
 			}	
 
 			if ((Temp_salon_var >= Temp_setpoint) && (ChauffElec_salon_command.state != 0))
 			{
-                       		logInfo("piscine", "Extinction radiateurs")
+                       		logInfo("radiateurs", "Extinction radiateurs")
 				sendCommand(ChauffElec_salon_command, 0)
 			}
 		}
