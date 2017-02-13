@@ -197,6 +197,17 @@ Contact ACuisine_FGSD_Tamper {zwave="9:command=sensor_alarm,alarm_type=0" }
 Number  ACuisine_FGSD_Battery {zwave="9:command=battery" }
 Number  ACuisine_FGSD_Temp {zwave="9:command=sensor_multilevel,sensor_type=1" }
 
+Dimmer	ACuisine_FGD_Dimmer	{ zwave="19:command=switch_multilevel,refresh_interval=10" }
+Switch	ACuisine_FGD_Switch	{ zwave="19:command=SWITCH_MULTILEVEL" }
+Number	ACuisine_FGD_Power { zwave="19:command=SENSOR_MULTILEVEL,meter_scale=E_W" }
+Number	ACuisine_FGD_Energy { zwave="19:command=METER,meter_scale=E_KWh" }
+
+Number  ACuisine_FGMS_Movement { zwave="18:command=sensor_binary" }
+Number  ACuisine_FGMS_Alarm    { zwave="18:command=sensor_alarm" }
+Number  ACuisine_FGMS_Lux      { zwave="18:command=sensor_multilevel,sensor_type=3" }
+Number  ACuisine_FGMS_Bat      { zwave="18:command=battery" }
+Number  ACuisine_FGMS_Temp     { zwave="18:command=sensor_multilevel,sensor_type=1" }
+
 /* Garage */
 Contact Inondation_garage_alarm {zwave="5:0:command=sensor_alarm, alarm_type=5,respond_to_basic=true"}
 Contact Inondation_garage_intrusion {zwave="5:0:command=sensor_alarm, alarm_type=0,respond_to_basic=true"}
