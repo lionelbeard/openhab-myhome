@@ -215,7 +215,7 @@ sitemap home label="La Maison"
     }
     }
     Frame label="Extérieur" {
-    	Text item=Temp_eau_piscine label="Piscine [%.1f °C]" icon="piscine" valuecolor=[Temp_eau_piscine<="15"="red"] {
+    	Text item=Temp_eau_piscine label="Piscine [%.1f °C]" icon="piscine" valuecolor=[Filtration_piscine=="ON"="green", Filtration_anti_gel=="ON"="red"] {
     		Text item=Temp_eau_piscine label="Température de l'eau [%.1f °C]" icon="temperature"
     		Text item=Temp_exterieur_piscine label="Température extérieure [%.1f °C]" icon="temperature"
     		Text item=Temp_local_piscine label="Température local technique [%.1f °C]" icon="temperature"
