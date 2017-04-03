@@ -92,11 +92,11 @@ Number Temp_ami_setpoint
 Number AZ_ami_status_register {modbus="slaveZone4:9"}
 String Zone_ami_volet_status "Etat de la grille [%s]"
 
-Contact ChAmi_FGSD_Smoke {zwave="13:command=sensor_alarm,alarm_type=1"}
-Contact ChAmi_FGSD_Heat {zwave="13:command=sensor_alarm,alarm_type=4"}
-Contact ChAmi_FGSD_Tamper {zwave="13:command=sensor_alarm,alarm_type=0"}
-Number  ChAmi_FGSD_Battery {zwave="13:command=battery" }
-Number  ChAmi_FGSD_Temp {zwave="13:command=sensor_multilevel,sensor_type=1" }
+Contact ChAmi_FGSD_Smoke {zwave="20:command=sensor_alarm,alarm_type=1"}
+Contact ChAmi_FGSD_Heat {zwave="20:command=sensor_alarm,alarm_type=4"}
+Contact ChAmi_FGSD_Tamper {zwave="20:command=sensor_alarm,alarm_type=0"}
+Number  ChAmi_FGSD_Battery {zwave="20:command=battery" }
+Number  ChAmi_FGSD_Temp {zwave="20:command=sensor_multilevel,sensor_type=1" }
 
 /* Ch Thomas */
 Number AZ_thomas_OpMode {modbus="slaveZone5:0"}
@@ -109,11 +109,11 @@ Number Temp_thomas_setpoint
 Number AZ_thomas_status_register {modbus="slaveZone5:9"}
 String Zone_thomas_volet_status "Etat de la grille [%s]"
 
-Contact ChThomas_FGSD_Smoke {zwave="11:command=sensor_alarm,alarm_type=1"}
-Contact ChThomas_FGSD_Heat {zwave="11:command=sensor_alarm,alarm_type=4"}
-Contact ChThomas_FGSD_Tamper {zwave="11:command=sensor_alarm,alarm_type=0"}
-Number  ChThomas_FGSD_Battery {zwave="11:command=battery" }
-Number  ChThomas_FGSD_Temp {zwave="11:command=sensor_multilevel,sensor_type=1" }
+Contact ChThomas_FGSD_Smoke {zwave="21:command=sensor_alarm,alarm_type=1"}
+Contact ChThomas_FGSD_Heat {zwave="21:command=sensor_alarm,alarm_type=4"}
+Contact ChThomas_FGSD_Tamper {zwave="21:command=sensor_alarm,alarm_type=0"}
+Number  ChThomas_FGSD_Battery {zwave="21:command=battery" }
+Number  ChThomas_FGSD_Temp {zwave="21:command=sensor_multilevel,sensor_type=1" }
 
 /* Ch Jumelles */
 Number AZ_filles_OpMode {modbus="slaveZone6:0"}
@@ -126,11 +126,11 @@ Number Temp_filles_setpoint
 Number AZ_filles_status_register {modbus="slaveZone6:9"}
 String Zone_filles_volet_status "Etat de la grille [%s]"
 
-Contact ChFilles_FGSD_Smoke {zwave="12:command=sensor_alarm,alarm_type=1"}
-Contact ChFilles_FGSD_Heat {zwave="12:command=sensor_alarm,alarm_type=4"}
-Contact ChFilles_FGSD_Tamper {zwave="12:command=sensor_alarm,alarm_type=0"}
-Number  ChFilles_FGSD_Battery {zwave="12:command=battery" }
-Number  ChFilles_FGSD_Temp {zwave="12:command=sensor_multilevel,sensor_type=1" }
+Contact ChFilles_FGSD_Smoke {zwave="22:command=sensor_alarm,alarm_type=1"}
+Contact ChFilles_FGSD_Heat {zwave="22:command=sensor_alarm,alarm_type=4"}
+Contact ChFilles_FGSD_Tamper {zwave="22:command=sensor_alarm,alarm_type=0"}
+Number  ChFilles_FGSD_Battery {zwave="22:command=battery" }
+Number  ChFilles_FGSD_Temp {zwave="22:command=sensor_multilevel,sensor_type=1" }
 
 /* Freebox */
 // Wifi Entries
