@@ -1485,7 +1485,7 @@ then
         Tfiltration_end = createTimer(filtration_time_end) [| if ((Filtration_piscine_force.state as DecimalType).intValue == 0) sendCommand(Filtration_piscine, OFF)]
         
         logInfo("piscine", "End piscine_create_daily_timers rule.")
-        sendMail("lionel@beard.fr", "[Piscine] Horaires de filtration", filtration_time_start.toString.concat(" ").concat(filtration_time_end.toString))
+        //sendMail("lionel@beard.fr", "[Piscine] Horaires de filtration", filtration_time_start.toString.concat(" ").concat(filtration_time_end.toString))
 
 end
 
