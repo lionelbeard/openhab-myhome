@@ -45,6 +45,10 @@ Switch ChauffElec_salon_auto
 Number Temp_PAC_salon
 Dimmer ChauffElec_salon_command {zwave="14:command=switch_multilevel"}
 
+Contact     FenetreDroite {zwave="17:command=basic,respond_to_basic=true"}
+Contact     FenetreDroiteTamper {zwave="17:command=ALARM"}
+Number      FenetreDroiteBatterie {zwave="17:command=BATTERY"}
+
 /*
 Contact Salon_FGSD_Smoke {zwave="9:command=sensor_alarm,alarm_type=1,respond_to_basic=true" }
 Contact Salon_FGSD_Heat {zwave="9:command=sensor_alarm,alarm_type=4,respond_to_basic=true" }

@@ -47,6 +47,9 @@ var Timer Tfiltration_start
 var Timer Tfiltration_end
 var Timer Tfiltration_force
 
+// Ouverture fenetre
+var Timer TsalonFenetreDroite
+
 
 /***************************************** */
 /* Rapport quotidien			   */
@@ -1910,6 +1913,38 @@ then
                 pushover("ALARME INCENDIE: Capteur dans la chambre d'ami ouvert!", 0)
                 sendMail("lionel@beard.fr", "[ChParents] ALARME INCENDIE", "Capteur dans la chambre d'ami ouvert!")
         }
+end
+
+
+/* Détecteur ouverture fenêtre */
+rule "salon_fenetre_droite_ouverture"
+when
+        Item FenetreDroite received update
+then
+        if (FenetreDroite.state == OPEN)
+        {
+		// temporaire
+                pushover("Ouverture fenêtre droite du salon", -1)
+                sendMail("lionel@beard.fr", "[Salon] Ouverture de la fenêtre droite", "")
+
+		// crée un timer pour couper la zone au bout de 3 min
+//		Zone_salon_OnOff.persist	 			
+//		TsalonFenetreDroite = createTimer(now.plusMinutes(3)) [| sendCommand(Zone_salon_OnOff, OFF)]			
+        }
+/*	else
+	{
+		// annule le timer si en cours
+		if (TsalonFenetreDroite != null)
+		{
+			TsalonFenetreDroite.cancel
+			TsalonFenetreDroite = null
+		}
+		else
+		{
+			// restaure l'état précédent de la zone
+			sendCommand(Zone_salon_OnOff, Zone_salon_OnOff.previousState.state)
+		}
+	}*/
 end
 
 /* Feu tricolore */

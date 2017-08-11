@@ -42,6 +42,11 @@ sitemap home label="La Maison"
 			Setpoint item=Temp_PAC_salon label="Température max PAC [%.1f °C]" icon="temperature" minValue=17 maxValue=28 step=0.5
 			Selection item=ChauffElec_salon_command label="Consigne chauffage" icon="dimmablelight" mappings=[0="Arret", 15="Hors gel", 25="Eco", 35="Confort -2°C", 45="Confort -1°C", 100="Confort"]
 		}
+		Text item=FenetreDroite label="Ouverture fenêtre [MAP(fr_contact.map):%s]" icon="window" valuecolor=[FenetreDroite=="OPEN"="red", FenetreDroite=="CLOSED"="green", FenetreDroiteBatterie<="10"="orange", FenetreDroiteBatterie<="2"="red"] {
+			Text item=FenetreDroite label="Fenêtre droite [MAP(fr_contact.map):%s]" icon="window"
+			Text item=FenetreDroiteTamper label="Fenêtre droite - capteur [MAP(fr_contact.map):%s]"
+                        Text item=FenetreDroiteBatterie icon="batterie" label="Fenêtre droite - Batterie [%s %%]"
+		}
 		Group item=gFreebox label="Freebox" icon="freebox-player2" {
 			Group item=gfbCalls label="Appels téléphoniques" icon="phone" {
 				Text item=freebox_call_lastnum
