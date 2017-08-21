@@ -14,3 +14,5 @@ Maybe I will make an architecture diagram sometimes... :-)
 
 22/08/2017: now my system is running under OH2 after successfull migration from OH1.
 Please check openhab2-myhome repository.
+
+This repo (openhab-myhome) is not used anymore.
