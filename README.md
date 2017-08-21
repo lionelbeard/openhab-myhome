@@ -11,3 +11,6 @@ Protocols used are:
 For now, it is running under openHAB 1.x. I haven't made any test under openHAB 2.x.
 
 Maybe I will make an architecture diagram sometimes... :-)
+
+22/08/2017: now my system is running under OH2 after successfull migration from OH1.
+Please check openhab2-myhome repository.
